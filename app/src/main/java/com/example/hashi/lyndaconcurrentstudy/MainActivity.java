@@ -1,5 +1,6 @@
 package com.example.hashi.lyndaconcurrentstudy;
 
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,10 +30,21 @@ public class MainActivity extends AppCompatActivity {
         mLog.setText(R.string.lorem_ipsum);
     }
 
-    public void runCode(View view) throws InterruptedException {
-        log("Running code");
-        Thread.sleep(3000);
+    public void runCode(View view)
+    {
+        log("The Code is running");
+        displayProgressBar(true);
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                Log.d(TAG, "The Code Completed");
+                displayProgressBar(false);
+            }
+        };
+        Handler handler = new Handler();
+        handler.postDelayed(runnable, 10000);
     }
+
     //  Clear the output, called from the onClick event in the layout file
     public void clearOutput(View v) {
         mLog.setText("");
